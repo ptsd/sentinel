@@ -60,7 +60,7 @@ func (t *Template) Render(context map[string]interface{}) (changed bool, err err
 	// add functions to the templates
 	funcs := template.FuncMap{
 		"replace": strings.Replace,
-		"eq": main.eq,
+		"eq": eq,
 	}
 
 	// render the template to the temp file
