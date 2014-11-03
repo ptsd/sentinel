@@ -60,6 +60,7 @@ func (t *Template) Render(context map[string]interface{}) (changed bool, err err
 	// add functions to the templates
 	funcs := template.FuncMap{
 		"replace": strings.Replace,
+		"eq": main.eq,
 	}
 
 	// render the template to the temp file
@@ -113,3 +114,28 @@ func (renderer *Renderer) Render(context map[string]interface{}) (changed bool, 
 	}
 	return changed, nil
 }
+
+func eq(args ...interface{}) bool {
+	if len(args) == 0 {
+		return false
+	}
+	x := args[0]
+	switch x := x.(type) {
+	case string, int, int64, byte, float32, float64:
+	for _, y := range args[1:] {
+		if x == y {
+			return true
+		}
+	}
+		return false
+	}
+
+	for _, y := range args[1:] {
+		if reflect.DeepEqual(x, y) {
+			return true
+		}
+	}
+	return false
+}
+
+
